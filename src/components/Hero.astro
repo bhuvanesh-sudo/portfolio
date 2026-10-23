@@ -1,0 +1,196 @@
+---
+// The hero statement, with a lens that reveals the blueprint underneath.
+// Notes are real details from the projects; edit them freely.
+const line1 = 'Meticulous beneath the surface.';
+const line2 = 'Frictionless on\u00A0top.';
+
+const notes = [
+  { text: 'Row-level security on every table', x: 6, y: 8 },
+  { text: 'Clause-aware chunking', x: 50, y: 5 },
+  { text: 'A full day of meals in under 50 ms', x: 34, y: 44 },
+  { text: '100% branch coverage', x: 64, y: 54 },
+  { text: 'Cross-encoder reranking', x: 4, y: 86 },
+  { text: 'Seeded, reproducible runs', x: 56, y: 90 },
+];
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="stage" data-lens>
+      <div class="layer surface">
+        <h1 id="hero-title" class="statement">
+          <span>{line1}</span> <span>{line2}</span>
+        </h1>
+      </div>
+      <div class="layer under" aria-hidden="true">
+        <p class="statement"><span>{line1}</span> <span>{line2}</span></p>
+        <ul class="notes">
+          {notes.map((n) => (
+            <li style={`--nx:${n.x}%; --ny:${n.y}%`}>{n.text}</li>
+          ))}
+        </ul>
+      </div>
+      <div class="ring" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero-foot">
+      <p class="intro">
+        I’m Bhuvanesh, a developer based in Chennai. I build web apps, AI tools and smart contracts, and I spend most of my
+        time on the parts people never see: data models, retrieval pipelines, test suites.
+      </p>
+      <p class="hint" data-hint>Move over the headline to see what’s underneath.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: 0 clamp(3rem, 8vw, 6rem); }
+
+  .stage {
+    --x: 70%; --y: 40%; --r: clamp(90px, 13vw, 190px);
+    position: relative;
+    display: grid;
+    margin-inline: calc(var(--gutter) * -1);
+    touch-action: pan-y;
+    cursor: crosshair;
+    overflow: hidden;
+  }
+  .layer { grid-area: 1 / 1; padding: clamp(3rem, 9vw, 8rem) var(--gutter); }
+
+  .statement {
+    margin: 0;
+    font-size: var(--step-hero);
+    font-weight: 700;
+    font-variation-settings: 'opsz' 96, 'wdth' 86;
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    max-width: 14ch;
+    text-wrap: initial;
+  }
+  .statement span:last-child { color: var(--muted); }
+
+  /* Underneath: blueprint paper, outlined letterforms, engineering notes. */
+  .under {
+    position: relative;
+    background-color: var(--print-deep);
+    background-image:
+      linear-gradient(rgba(122, 174, 255, 0.16) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(122, 174, 255, 0.16) 1px, transparent 1px),
+      linear-gradient(rgba(122, 174, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(122, 174, 255, 0.07) 1px, transparent 1px);
+    background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
+    clip-path: circle(var(--r) at var(--x) var(--y));
+    pointer-events: none;
+  }
+  .under .statement span { color: transparent; -webkit-text-stroke: 1px var(--print); }
+  .under .statement span:last-child { -webkit-text-stroke-color: rgba(122, 174, 255, 0.6); }
+
+  .notes { list-style: none; position: absolute; inset: 0; }
+  .notes li {
+    position: absolute; left: var(--nx); top: var(--ny);
+    font-size: var(--step--1); line-height: 1.2; color: var(--print);
+    white-space: nowrap;
+    padding-left: 1.1rem;
+  }
+  .notes li::before {
+    content: ''; position: absolute; left: 0; top: 0.3em; width: 0.6rem; height: 0.6rem;
+    background:
+      linear-gradient(var(--print), var(--print)) center / 100% 1px no-repeat,
+      linear-gradient(var(--print), var(--print)) center / 1px 100% no-repeat;
+  }
+
+  .ring {
+    position: absolute; left: 0; top: 0; pointer-events: none;
+    width: calc(var(--r) * 2); height: calc(var(--r) * 2);
+    border: 1px solid var(--print); border-radius: 50%;
+    translate: calc(var(--px, 0px) - var(--r)) calc(var(--py, 0px) - var(--r));
+    opacity: 0;
+  }
+  .stage.is-ready .ring { opacity: 1; }
+
+  .hero-foot {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: grid; gap: 1rem 3rem; grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 52rem) {
+    .hero-foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
+  }
+  .intro { font-size: var(--step-1); line-height: 1.4; max-width: 34rem; font-variation-settings: 'opsz' 30; }
+  .hint { color: var(--muted); font-size: var(--step--1); }
+  @media (hover: none) { .hint { display: none; } }
+
+  @media (max-width: 40rem) {
+    .notes li { font-size: 0.75rem; }
+    .notes li:nth-child(even) { display: none; }
+    .statement { font-variation-settings: 'opsz' 96, 'wdth' 78; font-size: 16.5vw; max-width: 11ch; }
+  }
+</style>
+
+<script>
+  const stage = document.querySelector<HTMLElement>('[data-lens]');
+  if (stage) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, sweeping = !reduce;
+
+    const heading = stage.querySelector<HTMLElement>('.surface .statement')!;
+    // Rest the lens over the end of the first line, where the headline is densest.
+    const rest = () => {
+      const r = stage.getBoundingClientRect();
+      const h = heading.getBoundingClientRect();
+      return { x: h.left - r.left + h.width * 0.66, y: h.top - r.top + h.height * 0.22 };
+    };
+
+    const apply = (x: number, y: number) => {
+      stage.style.setProperty('--x', `${x}px`);
+      stage.style.setProperty('--y', `${y}px`);
+      stage.style.setProperty('--px', `${x}px`);
+      stage.style.setProperty('--py', `${y}px`);
+    };
+
+    const tick = () => {
+      cx += (tx - cx) * 0.16;
+      cy += (ty - cy) * 0.16;
+      apply(cx, cy);
+      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3 ? requestAnimationFrame(tick) : 0;
+    };
+    const follow = (x: number, y: number, instant = false) => {
+      tx = x; ty = y;
+      if (instant || reduce) { cx = x; cy = y; apply(x, y); return; }
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    // One orchestrated moment: on load the lens sweeps across the headline, then parks.
+    const start = rest();
+    const r0 = stage.getBoundingClientRect();
+    if (sweeping) {
+      const from = { x: r0.width * 0.05, y: r0.height * 0.3 };
+      const t0 = performance.now();
+      const dur = 1700;
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      const sweep = (now: number) => {
+        if (!sweeping) return;
+        const t = Math.min(1, (now - t0) / dur);
+        const e = ease(t);
+        cx = tx = from.x + (start.x - from.x) * e;
+        cy = ty = from.y + (start.y - from.y) * e + Math.sin(e * Math.PI) * r0.height * 0.25;
+        apply(cx, cy);
+        if (t < 1) requestAnimationFrame(sweep); else sweeping = false;
+      };
+      requestAnimationFrame(sweep);
+    } else {
+      follow(start.x, start.y, true);
+    }
+    stage.classList.add('is-ready');
+
+    const local = (e: PointerEvent) => {
+      const r = stage.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    };
+    stage.addEventListener('pointermove', (e) => { sweeping = false; const p = local(e); follow(p.x, p.y); });
+    stage.addEventListener('pointerdown', (e) => { sweeping = false; const p = local(e); follow(p.x, p.y); });
+    stage.addEventListener('pointerleave', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      const p = rest(); follow(p.x, p.y);
+    });
+    window.addEventListener('resize', () => { const p = rest(); follow(p.x, p.y, true); });
+  }
+</script>

@@ -1,0 +1,47 @@
+---
+import { featured } from '../data/projects';
+import { url } from '../data/site';
+---
+<ol class="featured" aria-label="Featured projects">
+  {featured.map((p) => (
+    <li class="feature">
+      <a class="shot-link" href={url(`work/${p.slug}`)} tabindex="-1" aria-hidden="true">
+        <figure class="placeholder" data-label={`Screenshot: ${p.name}`}></figure>
+      </a>
+      <div class="copy">
+        <p class="meta"><span>{p.kind}</span><span class="status" data-status={p.status}>{p.status}</span></p>
+        <h3><a href={url(`work/${p.slug}`)}>{p.name}</a></h3>
+        <p class="summary">{p.summary}</p>
+        <p class="stack">{p.stack.join(', ')}</p>
+        <p class="actions">
+          <a class="text-link" href={url(`work/${p.slug}`)}>Read the case study</a>
+          {p.link && <a class="text-link" href={p.link.href}>{p.link.label}</a>}
+          {p.repo && <a class="text-link" href={p.repo}>Source on GitHub</a>}
+        </p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .featured { list-style: none; display: grid; gap: clamp(3.5rem, 9vw, 7rem); }
+  .feature { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); align-items: center; }
+  @media (min-width: 52rem) {
+    .feature { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+    .feature:nth-child(even) .shot-link { order: 2; }
+  }
+  .shot-link { display: block; border-radius: 6px; }
+  .shot-link .placeholder { transition: border-color 0.25s ease; }
+  .feature:hover .placeholder { border-color: var(--print); }
+
+  .meta { display: flex; gap: 1.25rem; align-items: center; color: var(--muted); font-size: var(--step--1); }
+  h3 {
+    margin-top: 0.75rem;
+    font-size: var(--step-4); font-variation-settings: 'opsz' 96, 'wdth' 82; letter-spacing: -0.025em;
+  }
+  h3 a { text-decoration: none; }
+  h3 a:hover { color: var(--paper); text-decoration: underline; text-decoration-color: var(--print); text-decoration-thickness: 2px; }
+  .summary { margin-top: 1rem; max-width: 30rem; }
+  .stack { margin-top: 0.75rem; color: var(--muted); font-size: var(--step--1); }
+  .actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+</style>

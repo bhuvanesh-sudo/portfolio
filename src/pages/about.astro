@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, url } from '../data/site';
+
+// Tools, grouped. Edit freely.
+const tools = [
+  { group: 'Languages', items: ['Python', 'TypeScript', 'JavaScript', 'C', 'C++', 'SQL', 'Solidity'] },
+  { group: 'Front end', items: ['React', 'Next.js', 'Tailwind CSS', 'shadcn/ui', 'Framer Motion'] },
+  { group: 'Back end', items: ['FastAPI', 'Django', 'Node.js', 'Express', 'REST APIs', 'JWT auth'] },
+  { group: 'Data and AI', items: ['PostgreSQL', 'Supabase', 'MongoDB', 'Neo4j', 'LangChain', 'FAISS', 'spaCy'] },
+  { group: 'Web3', items: ['Solidity', 'Hardhat', 'Ethers.js', 'Web3.js'] },
+  { group: 'Shipping', items: ['Git', 'Docker', 'GitHub Actions', 'Vercel', 'pytest'] },
+];
+
+// Photography: replace each placeholder with { src: 'photos/name.jpg', alt: 'what it shows' } once the files are in public/photos/.
+const photos = Array.from({ length: 6 }, (_, i) => ({ src: '', alt: `Photo ${i + 1}` }));
+---
+<Base title="About" description="About Bhuvanesh Srikanth, a developer in Chennai who builds web apps, AI tools and smart contracts.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>About</h1>
+    </div>
+  </section>
+
+  <section class="section intro-sec">
+    <div class="wrap intro">
+      <img src={url(site.photo)} alt="Portrait of Bhuvanesh Srikanth" width="413" height="531" loading="eager" />
+      <div class="bio">
+        <p class="big">I’m drawn to the parts of software most people overlook.</p>
+        <p>
+          I like building things that are meticulous beneath the surface and invisible where they should be. For
+          GrowingPlate that meant a database that keeps each family’s data private by design. For Legal RAG it meant
+          rethinking how a contract gets split up before a model ever sees it.
+        </p>
+        <p>
+          I work across the stack: React and Next.js on the front, Python and Node on the back, PostgreSQL underneath,
+          with detours into retrieval systems, smart contracts and embedded hardware. I’m based in {site.location}.
+        </p>
+        <p>
+          I’m open to freelance projects and collaborations, from a focused landing page to a full product. The quickest
+          way to reach me is <a class="text-link" href={`mailto:${site.email}`}>email</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tools-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="tools-title">Tools I reach for</h2>
+        <p>Grouped by where they sit in a project.</p>
+      </div>
+      <dl class="tools">
+        {tools.map((t) => (
+          <div>
+            <dt>{t.group}</dt>
+            <dd>{t.items.join(', ')}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" id="photography" aria-labelledby="photo-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="photo-title">Photography</h2>
+        <p>A small selection, coming soon.</p>
+      </div>
+      <ul class="photos">
+        {photos.map((p) =>
+          p.src ? (
+            <li><img src={url(p.src)} alt={p.alt} loading="lazy" /></li>
+          ) : (
+            <li><figure class="placeholder" data-label="Photo slot"></figure></li>
+          )
+        )}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="games" aria-labelledby="games-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="games-title">Games</h2>
+        <p>Games I’ve made, and what I learned making them.</p>
+      </div>
+      <div class="games">
+        <article>
+          <h3><a href="https://github.com/bhuvanesh-sudo/traced">Traced</a></h3>
+          <p>A web RPG for children with autism and dyspraxia. Tracing exercises that build fine-motor skills become quests, so practice feels like play.</p>
+        </article>
+        <article class="slot">
+          <figure class="placeholder" data-label="Next game: coming soon"></figure>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro-sec { padding-top: clamp(2rem, 5vw, 3.5rem); }
+  .intro { display: grid; gap: 2.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 52rem) { .intro { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); align-items: start; } }
+  .intro img { width: 100%; max-width: 22rem; aspect-ratio: 413 / 531; object-fit: cover; border-radius: 6px; filter: grayscale(0.25) contrast(1.05); }
+  .bio { display: grid; gap: 1.25rem; max-width: var(--measure); }
+  .bio .big { font-size: var(--step-3); line-height: 1.1; font-weight: 600; font-variation-settings: 'opsz' 72, 'wdth' 85; letter-spacing: -0.02em; }
+  .bio p:not(.big) { color: var(--paper); }
+
+  .tools { margin: 0; border-top: 1px solid var(--rule); }
+  .tools div { display: grid; gap: 0.25rem 2rem; grid-template-columns: minmax(0, 1fr); padding-block: 1.1rem; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 52rem) { .tools div { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); } }
+  .tools dt { color: var(--muted); }
+  .tools dd { margin: 0; }
+
+  .photos { list-style: none; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
+  .photos .placeholder, .photos img { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; border-radius: 6px; }
+
+  .games { display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); align-items: start; }
+  .games article:not(.slot) { border-top: 1px solid var(--rule); padding-top: 1.25rem; }
+  .games h3 { font-size: var(--step-2); font-variation-settings: 'opsz' 72, 'wdth' 85; letter-spacing: -0.015em; }
+  .games h3 a { text-decoration: none; }
+  .games h3 a:hover { color: var(--print); }
+  .games p { margin-top: 0.75rem; color: var(--muted); max-width: 30rem; }
+</style>

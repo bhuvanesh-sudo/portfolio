@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import FeaturedWork from '../../components/FeaturedWork.astro';
+import ProjectIndex from '../../components/ProjectIndex.astro';
+import { others, projects } from '../../data/projects';
+---
+<Base title="Work" description="Projects by Bhuvanesh Srikanth: web apps, AI tools, smart contracts, research and games.">
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Work</h1>
+      <p>{projects.length} projects across web, AI, Web3, research and embedded systems. The first two are written up as full case studies.</p>
+    </div>
+  </section>
+
+  <section class="section first">
+    <div class="wrap">
+      <FeaturedWork />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="all-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="all-title">Everything else</h2>
+        <p>Most of these have their source on GitHub. Team projects are marked.</p>
+      </div>
+      <ProjectIndex items={others} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .first { padding-top: clamp(2rem, 5vw, 3rem); }
+</style>

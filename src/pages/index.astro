@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedWork from '../components/FeaturedWork.astro';
+import ProjectIndex from '../components/ProjectIndex.astro';
+import { others } from '../data/projects';
+import { url } from '../data/site';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const shortList = others.slice(0, 5);
+---
+<Base>
+  <Hero />
+
+  <section class="section" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="work-title">Selected work</h2>
+        <p>Two projects written up in full: what problem they solve, and how they work underneath.</p>
+      </div>
+      <FeaturedWork />
+    </div>
+  </section>
+
+  <section class="section tight" aria-labelledby="more-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="more-title">More projects</h2>
+        <p>Research, smart contracts, games and experiments. <a class="text-link" href={url('work')}>See all {others.length + 2} projects</a></p>
+      </div>
+      <ProjectIndex items={shortList} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="else-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="else-title">Off the clock</h2>
+        <p>What I make when nobody’s asked for it.</p>
+      </div>
+      <div class="elsewhere">
+        <article>
+          <h3><a href={url('writing')}>Writing</a></h3>
+          {posts.length ? (
+            <ul class="mini">
+              {posts.map((p) => <li><a href={url(`writing/${p.id}`)}>{p.data.title}</a></li>)}
+            </ul>
+          ) : (
+            <p>Notes on what I’m building and what broke along the way. The first posts are on their way.</p>
+          )}
+        </article>
+        <article>
+          <h3><a href={url('about#photography')}>Photography</a></h3>
+          <p>Photos I’ve taken. A selection is coming to the About page soon.</p>
+        </article>
+        <article>
+          <h3><a href={url('about#games')}>Games</a></h3>
+          <p>Games I’ve made and the ideas behind them. Traced is the first one on here.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tight { padding-top: 0; }
+  .elsewhere { display: grid; gap: 2.5rem 3rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+  .elsewhere article { border-top: 1px solid var(--rule); padding-top: 1.25rem; }
+  .elsewhere h3 { font-size: var(--step-2); font-variation-settings: 'opsz' 72, 'wdth' 85; letter-spacing: -0.015em; }
+  .elsewhere h3 a { text-decoration: none; }
+  .elsewhere h3 a:hover { color: var(--print); }
+  .elsewhere p { margin-top: 0.75rem; color: var(--muted); max-width: 26rem; }
+  .mini { list-style: none; margin-top: 0.75rem; display: grid; gap: 0.4rem; }
+</style>
