@@ -1,4 +1,4 @@
-# Bhuvanesh Srikanth: portfolio
+# Bhuvanesh S: portfolio
 
 Personal site built with [Astro](https://astro.build). Static, fast, dark, and deployed to GitHub Pages.
 
