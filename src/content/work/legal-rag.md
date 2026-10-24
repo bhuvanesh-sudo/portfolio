@@ -2,6 +2,9 @@
 title: Legal RAG
 slug: legal-rag
 order: 2
+# To add a cover: put the image in src/content/work/images/, then delete the # on the next two lines.
+# cover: ./images/legal-rag-cover.png
+# coverAlt: What the screenshot shows
 role: Solo project. Design, retrieval pipeline, API and front end.
 lede: Contracts are written to be precise, not to be read. Legal RAG reads them for you, and shows its work by citing the exact clause behind every answer.
 ---
