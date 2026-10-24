@@ -1,6 +1,6 @@
-# Bhuvanesh S: portfolio
+# Portfolio
 
-Personal site built with [Astro](https://astro.build). Static, fast, dark, and deployed to GitHub Pages.
+Personal site built with [Astro](https://astro.build). 
 
 ## Run it locally
 
