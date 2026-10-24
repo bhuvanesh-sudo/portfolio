@@ -7,7 +7,7 @@ const posts = (await getCollection('writing', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
-<Base title="Writing" description="Notes by Bhuvanesh Srikanth on building software and what breaks along the way.">
+<Base title="Writing" description="Notes by Bhuvanesh S on building software and what breaks along the way.">
   <section class="page-head">
     <div class="wrap">
       <h1>Writing</h1>

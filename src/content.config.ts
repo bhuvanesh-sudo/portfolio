@@ -2,15 +2,20 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 // Case studies: one Markdown file per featured project. `slug` must match src/data/projects.ts.
+// Optional `cover`: path to an image next to the file, e.g. ./images/growingplate-cover.png.
+// It is used on the home page, the Work page and at the top of the case study.
 const work = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/work' }),
-  schema: z.object({
-    title: z.string(),
-    slug: z.string(),
-    lede: z.string(),
-    role: z.string(),
-    order: z.number().default(0),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      slug: z.string(),
+      lede: z.string(),
+      role: z.string(),
+      order: z.number().default(0),
+      cover: image().optional(),
+      coverAlt: z.string().optional(),
+    }),
 });
 
 // Writing: drop a Markdown file in src/content/writing/. Set `draft: false` to publish it.

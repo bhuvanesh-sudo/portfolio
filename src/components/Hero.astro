@@ -1,16 +1,17 @@
 ---
 // The hero statement, with a lens that reveals the blueprint underneath.
-// Notes are real details from the projects; edit them freely.
-const line1 = 'Meticulous beneath the surface.';
-const line2 = 'Frictionless on\u00A0top.';
+// Notes are how I work, in plain words; edit them freely.
+const line1 = 'Bhuvanesh.';
+const line2 = 'Developer in Chennai.';
+const line3 = 'Pretty good at\u00A0it.';
 
 const notes = [
-  { text: 'Row-level security on every table', x: 6, y: 8 },
-  { text: 'Clause-aware chunking', x: 50, y: 5 },
-  { text: 'A full day of meals in under 50 ms', x: 34, y: 44 },
-  { text: '100% branch coverage', x: 64, y: 54 },
-  { text: 'Cross-encoder reranking', x: 4, y: 86 },
-  { text: 'Seeded, reproducible runs', x: 56, y: 90 },
+  { text: 'Plain English, no jargon', x: 46, y: 12 },
+  { text: 'Reads the docs. All of them.', x: 66, y: 24 },
+  { text: 'Asks the dumb questions early', x: 52, y: 58 },
+  { text: 'Straight answers', x: 64, y: 42 },
+  { text: 'Code you can actually read', x: 4, y: 92 },
+  { text: 'Sweats the small stuff', x: 58, y: 80 },
 ];
 ---
 <section class="hero" aria-labelledby="hero-title">
@@ -18,11 +19,11 @@ const notes = [
     <div class="stage" data-lens>
       <div class="layer surface">
         <h1 id="hero-title" class="statement">
-          <span>{line1}</span> <span>{line2}</span>
+          <span>{line1}</span> <span>{line2}<br />{line3}</span>
         </h1>
       </div>
       <div class="layer under" aria-hidden="true">
-        <p class="statement"><span>{line1}</span> <span>{line2}</span></p>
+        <p class="statement"><span>{line1}</span> <span>{line2}<br />{line3}</span></p>
         <ul class="notes">
           {notes.map((n) => (
             <li style={`--nx:${n.x}%; --ny:${n.y}%`}>{n.text}</li>
@@ -34,10 +35,9 @@ const notes = [
 
     <div class="hero-foot">
       <p class="intro">
-        I’m Bhuvanesh, a developer based in Chennai. I build web apps, AI tools and smart contracts, and I spend most of my
-        time on the parts people never see: data models, retrieval pipelines, test suites.
+        I build web apps, AI tools and the odd smart contract, and I take on freelance work when something
+        interesting comes along. Most of it lives on GitHub. The good stuff is below.
       </p>
-      <p class="hint" data-hint>Move over the headline to see what’s underneath.</p>
     </div>
   </div>
 </section>
@@ -51,7 +51,7 @@ const notes = [
     display: grid;
     margin-inline: calc(var(--gutter) * -1);
     touch-action: pan-y;
-    cursor: crosshair;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='4' fill='%23ece6da'/%3E%3C/svg%3E") 6 6, auto;
     overflow: hidden;
   }
   .layer { grid-area: 1 / 1; padding: clamp(3rem, 9vw, 8rem) var(--gutter); }
@@ -63,10 +63,15 @@ const notes = [
     font-variation-settings: 'opsz' 96, 'wdth' 86;
     line-height: 0.94;
     letter-spacing: -0.035em;
-    max-width: 14ch;
     text-wrap: initial;
   }
-  .statement span:last-child { color: var(--muted); }
+  .statement span { display: block; width: fit-content; }
+  .statement span:last-child {
+    color: var(--muted);
+    font-size: 0.4em; line-height: 1.08; letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 72, 'wdth' 90;
+    margin-top: 0.3em;
+  }
 
   /* Underneath: blueprint paper, outlined letterforms, engineering notes. */
   .under {
@@ -86,16 +91,14 @@ const notes = [
 
   .notes { list-style: none; position: absolute; inset: 0; }
   .notes li {
-    position: absolute; left: var(--nx); top: var(--ny);
+    position: absolute; left: clamp(0px, var(--nx), calc(100% - 15rem)); top: var(--ny);
     font-size: var(--step--1); line-height: 1.2; color: var(--print);
     white-space: nowrap;
     padding-left: 1.1rem;
   }
   .notes li::before {
-    content: ''; position: absolute; left: 0; top: 0.3em; width: 0.6rem; height: 0.6rem;
-    background:
-      linear-gradient(var(--print), var(--print)) center / 100% 1px no-repeat,
-      linear-gradient(var(--print), var(--print)) center / 1px 100% no-repeat;
+    content: ''; position: absolute; left: 0.15rem; top: 0.42em; width: 0.4rem; height: 0.4rem;
+    border-radius: 50%; background: var(--print);
   }
 
   .ring {
@@ -120,8 +123,8 @@ const notes = [
 
   @media (max-width: 40rem) {
     .notes li { font-size: 0.75rem; }
-    .notes li:nth-child(even) { display: none; }
-    .statement { font-variation-settings: 'opsz' 96, 'wdth' 78; font-size: 16.5vw; max-width: 11ch; }
+    .notes li:not(:nth-child(1)):not(:nth-child(5)) { display: none; }
+    .statement { font-variation-settings: 'opsz' 96, 'wdth' 78; font-size: 19vw; }
   }
 </style>
 
@@ -131,12 +134,12 @@ const notes = [
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, sweeping = !reduce;
 
-    const heading = stage.querySelector<HTMLElement>('.surface .statement')!;
-    // Rest the lens over the end of the first line, where the headline is densest.
+    const heading = stage.querySelector<HTMLElement>('.surface .statement span')!;
+    // Rest the lens over the end of the name.
     const rest = () => {
       const r = stage.getBoundingClientRect();
       const h = heading.getBoundingClientRect();
-      return { x: h.left - r.left + h.width * 0.66, y: h.top - r.top + h.height * 0.22 };
+      return { x: h.left - r.left + h.width * 0.72, y: h.top - r.top + h.height * 0.55 };
     };
 
     const apply = (x: number, y: number) => {

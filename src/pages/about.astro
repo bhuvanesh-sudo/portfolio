@@ -15,7 +15,7 @@ const tools = [
 // Photography: replace each placeholder with { src: 'photos/name.jpg', alt: 'what it shows' } once the files are in public/photos/.
 const photos = Array.from({ length: 6 }, (_, i) => ({ src: '', alt: `Photo ${i + 1}` }));
 ---
-<Base title="About" description="About Bhuvanesh Srikanth, a developer in Chennai who builds web apps, AI tools and smart contracts.">
+<Base title="About" description="About Bhuvanesh S, a developer in Chennai who builds web apps, AI tools and smart contracts.">
   <section class="page-head">
     <div class="wrap">
       <h1>About</h1>
@@ -24,7 +24,7 @@ const photos = Array.from({ length: 6 }, (_, i) => ({ src: '', alt: `Photo ${i +
 
   <section class="section intro-sec">
     <div class="wrap intro">
-      <img src={url(site.photo)} alt="Portrait of Bhuvanesh Srikanth" width="413" height="531" loading="eager" />
+      <img src={url(site.photo)} alt="Portrait of Bhuvanesh S" width="900" height="900" loading="eager" />
       <div class="bio">
         <p class="big">I’m drawn to the parts of software most people overlook.</p>
         <p>
@@ -79,30 +79,13 @@ const photos = Array.from({ length: 6 }, (_, i) => ({ src: '', alt: `Photo ${i +
     </div>
   </section>
 
-  <section class="section" id="games" aria-labelledby="games-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="games-title">Games</h2>
-        <p>Games I’ve made, and what I learned making them.</p>
-      </div>
-      <div class="games">
-        <article>
-          <h3><a href="https://github.com/bhuvanesh-sudo/traced">Traced</a></h3>
-          <p>A web RPG for children with autism and dyspraxia. Tracing exercises that build fine-motor skills become quests, so practice feels like play.</p>
-        </article>
-        <article class="slot">
-          <figure class="placeholder" data-label="Next game: coming soon"></figure>
-        </article>
-      </div>
-    </div>
-  </section>
 </Base>
 
 <style>
   .intro-sec { padding-top: clamp(2rem, 5vw, 3.5rem); }
   .intro { display: grid; gap: 2.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
   @media (min-width: 52rem) { .intro { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); align-items: start; } }
-  .intro img { width: 100%; max-width: 22rem; aspect-ratio: 413 / 531; object-fit: cover; border-radius: 6px; filter: grayscale(0.25) contrast(1.05); }
+  .intro img { width: 100%; height: auto; max-width: 24rem; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; }
   .bio { display: grid; gap: 1.25rem; max-width: var(--measure); }
   .bio .big { font-size: var(--step-3); line-height: 1.1; font-weight: 600; font-variation-settings: 'opsz' 72, 'wdth' 85; letter-spacing: -0.02em; }
   .bio p:not(.big) { color: var(--paper); }
@@ -116,10 +99,4 @@ const photos = Array.from({ length: 6 }, (_, i) => ({ src: '', alt: `Photo ${i +
   .photos { list-style: none; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
   .photos .placeholder, .photos img { aspect-ratio: 4 / 5; width: 100%; object-fit: cover; border-radius: 6px; }
 
-  .games { display: grid; gap: 2rem 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); align-items: start; }
-  .games article:not(.slot) { border-top: 1px solid var(--rule); padding-top: 1.25rem; }
-  .games h3 { font-size: var(--step-2); font-variation-settings: 'opsz' 72, 'wdth' 85; letter-spacing: -0.015em; }
-  .games h3 a { text-decoration: none; }
-  .games h3 a:hover { color: var(--print); }
-  .games p { margin-top: 0.75rem; color: var(--muted); max-width: 30rem; }
 </style>

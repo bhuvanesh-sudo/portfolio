@@ -159,6 +159,8 @@ a:hover { color: var(--print); }
 .prose li::marker { color: var(--print); }
 .prose strong { font-weight: 650; }
 .prose figure.placeholder { margin-block: 2.5em; max-width: none; }
+.prose img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--rule); }
+.prose p:has(> img:only-child) { margin-block: 2.5em; }
 .prose blockquote { margin: 1.5em 0; padding-left: 1.2em; border-left: 2px solid var(--print); color: var(--muted); }
 .prose code { font-size: 0.9em; background: var(--ink-raised); padding: 0.1em 0.35em; border-radius: 3px; }
 .prose pre { background: var(--print-deep); padding: 1rem 1.2rem; border-radius: 6px; overflow-x: auto; font-size: var(--step--1); }

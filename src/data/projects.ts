@@ -72,25 +72,6 @@ export const projects: Project[] = [
     repo: 'https://github.com/bhuvanesh-sudo/deadman-switch',
   },
   {
-    slug: 'traced',
-    name: 'Traced',
-    summary:
-      'A web RPG for children with autism and dyspraxia that turns fine-motor tracing exercises into a game.',
-    kind: 'Game',
-    stack: ['React', 'Node.js', 'MongoDB', 'Canvas'],
-    status: 'Shipped',
-    repo: 'https://github.com/bhuvanesh-sudo/traced',
-  },
-  {
-    slug: 'dreamer-macrocosm',
-    name: 'Dreamer Macrocosm',
-    summary:
-      'Turns written dream journals into knowledge graphs of people, places and recurring symbols.',
-    kind: 'NLP experiment',
-    stack: ['Python', 'spaCy', 'Neo4j', 'FastAPI', 'React'],
-    status: 'In progress',
-  },
-  {
     slug: 'smart-braking',
     name: 'Smart Braking System',
     summary:

@@ -1,12 +1,21 @@
 ---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import { featured } from '../data/projects';
 import { url } from '../data/site';
+
+const studies = await getCollection('work');
+const coverFor = (slug: string) => studies.find((s) => s.data.slug === slug)?.data;
 ---
 <ol class="featured" aria-label="Featured projects">
   {featured.map((p) => (
     <li class="feature">
       <a class="shot-link" href={url(`work/${p.slug}`)} tabindex="-1" aria-hidden="true">
-        <figure class="placeholder" data-label={`Screenshot: ${p.name}`}></figure>
+        {coverFor(p.slug)?.cover ? (
+          <Image class="shot" src={coverFor(p.slug)!.cover!} alt={coverFor(p.slug)!.coverAlt ?? `Screenshot of ${p.name}`} widths={[640, 960, 1280]} sizes="(min-width: 52rem) 58vw, 100vw" />
+        ) : (
+          <figure class="placeholder" data-label={`Screenshot: ${p.name}`}></figure>
+        )}
       </a>
       <div class="copy">
         <p class="meta"><span>{p.kind}</span><span class="status" data-status={p.status}>{p.status}</span></p>
@@ -31,8 +40,9 @@ import { url } from '../data/site';
     .feature:nth-child(even) .shot-link { order: 2; }
   }
   .shot-link { display: block; border-radius: 6px; }
-  .shot-link .placeholder { transition: border-color 0.25s ease; }
-  .feature:hover .placeholder { border-color: var(--print); }
+  .shot-link .placeholder, .shot { transition: border-color 0.25s ease; }
+  .shot { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border-radius: 6px; border: 1px solid var(--rule); }
+  .feature:hover .placeholder, .feature:hover .shot { border-color: var(--print); }
 
   .meta { display: flex; gap: 1.25rem; align-items: center; color: var(--muted); font-size: var(--step--1); }
   h3 {
