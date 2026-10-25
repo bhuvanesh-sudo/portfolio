@@ -39,19 +39,17 @@ const photos = Object.entries(files)
     <div class="wrap intro">
       <img src={url(site.photo)} alt="Portrait of Bhuvanesh S" width="900" height="900" loading="eager" />
       <div class="bio">
-        <p class="big">I’m drawn to the parts of software most people overlook.</p>
+        <p class="big">I make software. Usually the useful kind.</p>
         <p>
-          I like building things that are meticulous beneath the surface and invisible where they should be. For
-          GrowingPlate that meant a database that keeps each family’s data private by design. For Legal RAG it meant
-          rethinking how a contract gets split up before a model ever sees it.
+          I’m Bhuvanesh, and I live in Chennai, India. I’m the kind of person who has to know how something works before I can 
+          leave it alone. Good for the work, bad for my sleep schedule.
         </p>
         <p>
-          I work across the stack: React and Next.js on the front, Python and Node on the back, PostgreSQL underneath,
-          with detours into retrieval systems, smart contracts and embedded hardware. I’m based in {site.location}.
+        Outside of code I’m usually behind my phone taking pictures, or writing things down so I don’t forget them.
         </p>
         <p>
-          I’m open to freelance projects and collaborations, from a focused landing page to a full product. The quickest
-          way to reach me is <a class="text-link" href={`mailto:${site.email}`}>email</a>.
+          If you’ve got something you want built, or just want to talk shop, <a class="text-link" href={`mailto:${site.email}`}>
+          my inbox is open</a>.
         </p>
       </div>
     </div>
@@ -61,7 +59,7 @@ const photos = Object.entries(files)
     <div class="wrap">
       <div class="section-head">
         <h2 id="tools-title">Tools I reach for</h2>
-        <p>Grouped by where they sit in a project.</p>
+        
       </div>
       <dl class="tools">
         {tools.map((t) => (
@@ -78,7 +76,7 @@ const photos = Object.entries(files)
     <div class="wrap">
       <div class="section-head">
         <h2 id="photo-title">Photography</h2>
-        <p>{photos.length ? 'A small selection. Click one to see it full size.' : 'A small selection, coming soon.'}</p>
+        <p>{photos.length ? 'A small selection.' : 'A small selection, coming soon.'}</p>
       </div>
       <ul class="photos">
         {photos.length
