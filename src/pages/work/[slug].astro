@@ -6,7 +6,9 @@ import { projects } from '../../data/projects';
 import { url } from '../../data/site';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('work');
+  // Only build case studies whose slug matches a featured project in src/data/projects.ts.
+  const featuredSlugs = new Set(projects.filter((p) => p.featured).map((p) => p.slug));
+  const entries = (await getCollection('work')).filter((e) => featuredSlugs.has(e.data.slug));
   return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
 }
 
