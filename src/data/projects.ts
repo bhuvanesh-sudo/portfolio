@@ -29,14 +29,14 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: 'legal-rag',
-    name: 'Legal RAG',
+    slug: 'typefaze',
+    name: 'TypeFaze',
     summary:
-      'Contract intelligence. Upload a legal PDF, ask questions in plain English, and get answers that cite the exact clause.',
+      'Draw five letters, get a whole font. A small model trained from scratch fills in the rest of the alphabet in your style, right in the browser.',
     kind: 'AI tool',
-    stack: ['Python', 'FastAPI', 'LangChain', 'FAISS', 'React'],
-    status: 'Shipped',
-    repo: 'https://github.com/bhuvanesh-sudo/leg-rag',
+    stack: ['PyTorch', 'ONNX Runtime Web', 'React', 'TypeScript', 'opentype.js'],
+    status: 'In progress',
+    repo: 'https://github.com/bhuvanesh-sudo/typefaze',
     featured: true,
   },
   {
