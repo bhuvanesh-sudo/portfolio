@@ -82,9 +82,7 @@ const photos = Object.entries(files)
         {photos.length
           ? photos.map((p) => (
               <li>
-                <a href={p.src.src} aria-label={`${p.alt}, full size`}>
-                  <Image src={p.src} alt={p.alt} widths={[400, 700, 1000]} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw" />
-                </a>
+                <Image draggable="false" src={p.src} alt={p.alt} widths={[400, 700, 1000]} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw" />
               </li>
             ))
           : Array.from({ length: 6 }, () => <li><figure class="placeholder" data-label="Photo slot"></figure></li>)}
@@ -111,8 +109,7 @@ const photos = Object.entries(files)
 
   .photos { list-style: none; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); }
   .photos .placeholder, .photos img { aspect-ratio: 4 / 5; width: 100%; height: auto; object-fit: cover; border-radius: 6px; }
-  .photos a { display: block; border-radius: 6px; }
-  .photos img { transition: opacity 0.2s ease; }
-  .photos a:hover img { opacity: 0.85; }
+  /* Photos are for looking at only: no links, dragging or selecting. */
+  .photos img { pointer-events: none; user-select: none; -webkit-user-select: none; }
 
 </style>
