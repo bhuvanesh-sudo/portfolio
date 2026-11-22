@@ -3,8 +3,8 @@ title: GrowingPlate
 slug: growingplate
 order: 1
 # To add a cover: put the image in src/content/work/images/, then delete the # on the next two lines.
-cover: ./images/gp-home.png
-# coverAlt: What the screenshot shows
+cover: ./images/gp-demo.png
+coverAlt: GrowingPlate dashboard for a sample child, showing today's meals, calories and a plate of food groups
 role: Solo project. Product design, data model, nutrition engine and front end.
 lede: Parents are told to make sure their kids get enough iron, calcium and protein, but nobody tells them how to check. GrowingPlate turns a day of meals into a clear picture of what a child got, and what they missed.
 ---

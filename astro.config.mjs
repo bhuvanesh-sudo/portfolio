@@ -1,14 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// GitHub Pages settings. The deploy workflow fills these in automatically:
-//   SITE_URL  -> https://<user>.github.io
-//   BASE_PATH -> "/" for a <user>.github.io repo, or "/<repo-name>" otherwise
-const site = process.env.SITE_URL || 'https://bhuvanesh-sudo.github.io';
-const base = process.env.BASE_PATH || '/';
-
+// The site is served from the custom domain bv.is-a.dev, at the root.
+// These are fixed on purpose: the deploy workflow's SITE_URL and BASE_PATH
+// are for github.io addresses and would break links on the custom domain.
 export default defineConfig({
-  site,
-  base,
+  site: 'https://bv.is-a.dev',
+  base: '/',
   trailingSlash: 'ignore',
 });
