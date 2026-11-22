@@ -46,7 +46,7 @@ export const projects: Project[] = [
       'A reproducible benchmark for trust-aware network load balancers, built around servers that behave well and then turn malicious.',
     kind: 'Research benchmark',
     stack: ['Python', 'NumPy', 'SciPy', 'pytest'],
-    status: 'In progress',
+    status: 'Shipped',
     repo: 'https://github.com/bhuvanesh-sudo/turncoat-sdn',
     team: true,
   },
