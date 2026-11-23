@@ -40,6 +40,16 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    slug: 'legal-rag',
+    name: 'Legal RAG',
+    summary:
+      'Contract intelligence. Upload a legal PDF, ask questions in plain English, and get answers that cite the exact clause.',
+    kind: 'AI tool',
+    stack: ['Python', 'FastAPI', 'LangChain', 'FAISS', 'React'],
+    status: 'Shipped',
+    repo: 'https://github.com/bhuvanesh-sudo/leg-rag',
+  },
+  {
     slug: 'turncoat-sdn',
     name: 'turncoat-sdn',
     summary:
