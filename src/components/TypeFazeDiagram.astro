@@ -1,0 +1,25 @@
+---
+// The TypeFaze pipeline as a diagram.js free layout: draw five letters, a style encoder reads them,
+// a U-Net generates the other 47 in four steps, and the 52 letters are packaged as an .otf font.
+// Every step comes from the TypeFaze case study and the resume. Icons are the kit's ui: glyphs.
+const spec = {
+  layout: 'free',
+  alt: 'TypeFaze in the browser: you draw five letters, a style encoder reads them, a U-Net generates the other 47 in four steps, and the 52 letters are packaged as an installable .otf font.',
+  nodes: [
+    { id: 'draw', label: 'Draw', meta: 'H O n a g', icon: 'ui:pen-line', at: [0.1, 0.5], atCompact: [0.17, 0.25] },
+    { id: 'enc', label: 'Encoder', icon: 'ui:scan-text', at: [0.3, 0.5], atCompact: [0.5, 0.25] },
+    { id: 'unet', label: 'U-Net', meta: '4 steps', icon: 'ui:cpu', at: [0.5, 0.5], atCompact: [0.83, 0.25] },
+    { id: 'alpha', label: '52 letters', icon: 'ui:layers', at: [0.7, 0.5], atCompact: [0.3, 0.75] },
+    { id: 'font', label: '.otf font', icon: 'ui:download', done: true, at: [0.9, 0.5], atCompact: [0.7, 0.75] },
+  ],
+  edges: [
+    { from: 'draw', to: 'enc' },
+    { from: 'enc', to: 'unet' },
+    { from: 'unet', to: 'alpha', curve: 'elbow' },
+    { from: 'alpha', to: 'font' },
+  ],
+};
+---
+<div class="dg" data-diagram>
+  <script type="application/json" set:html={JSON.stringify(spec)} />
+</div>

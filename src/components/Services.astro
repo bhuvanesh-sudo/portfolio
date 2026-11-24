@@ -1,0 +1,28 @@
+---
+import { Image } from 'astro:assets';
+import { services } from '../data/home';
+import RagDiagram from './RagDiagram.astro';
+import gpHome from '../content/work/images/gp-home.png';
+import tfSteps from '../content/work/images/tf-steps.png';
+---
+<div class="grid">
+  {services.map((s, i) => (
+    <article class="card card--row card--open span-4">
+      <h3>{s.title}</h3>
+      <p>{s.body}</p>
+      <div class="panel svc-panel">
+        {i === 0 && <div class="svc-dg"><RagDiagram /></div>}
+        {i === 1 && <Image class="frame__img" src={gpHome} alt="GrowingPlate’s home screen with a day’s nutrient progress" widths={[960, 1919]} sizes="650px" />}
+        {i === 2 && <Image class="frame__img" src={tfSteps} alt="TypeFaze turning five drawn letters into a full alphabet" widths={[832, 1664]} sizes="1300px" />}
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .svc-panel { --p-h: 300px; overflow: hidden; --ground-bg: var(--p-surface); --ground-surface: var(--p-surface); --ground-accent: var(--p-surface); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--p-ink) 10%, transparent); }
+  .svc-panel::before, .svc-panel::after { display: none; }
+  .svc-panel :global(.frame__img) { object-position: top; }
+  .svc-dg { position: absolute; inset: 0; padding: var(--s-2); }
+  .svc-dg :global(.dg) { height: 100%; }
+</style>

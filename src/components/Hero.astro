@@ -1,199 +1,55 @@
 ---
-// The hero statement, with a lens that reveals the blueprint underneath.
-// Notes are how I work, in plain words; edit them freely.
-const line1 = 'Bhuvanesh.';
-const line2 = 'Developer in Chennai.';
-const line3 = 'Pretty good at\u00A0it.';
-
-const notes = [
-  { text: 'Plain English, no jargon', x: 46, y: 12 },
-  { text: 'Reads the docs. All of them.', x: 66, y: 24 },
-  { text: 'Asks the dumb questions early', x: 52, y: 58 },
-  { text: 'Straight answers', x: 64, y: 42 },
-  { text: 'Code you can actually read', x: 4, y: 92 },
-  { text: 'Sweats the small stuff', x: 58, y: 80 },
-];
+// The dealt hero (centred): notice pill, h1, lead, two buttons, then one window holding the TypeFaze
+// pipeline diagram. The window is the page's visual; it enters once on load (data-enter) and then rests
+// apart from the diagram's own pulse.
+import TypeFazeDiagram from './TypeFazeDiagram.astro';
+import { hero } from '../data/home';
+import { url } from '../data/site';
 ---
-<section class="hero" aria-labelledby="hero-title">
-  <div class="wrap">
-    <div class="stage" data-lens>
-      <div class="layer surface">
-        <h1 id="hero-title" class="statement">
-          <span>{line1}</span> <span>{line2}<br />{line3}</span>
-        </h1>
+<section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+  <div class="wrap"><div class="hero-text">
+    <div class="hero__c">
+      <a class="pill" href={url('work/typefaze')}><span>{hero.notice}</span></a>
+      <h1 id="hero-h">{hero.h1}</h1>
+      <p class="hero__lead">{hero.lead}</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={hero.primary.href}>{hero.primary.label}</a>
+        <a class="btn btn--secondary" href={hero.secondary.href}>{hero.secondary.label}</a>
       </div>
-      <div class="layer under" aria-hidden="true">
-        <p class="statement"><span>{line1}</span> <span>{line2}<br />{line3}</span></p>
-        <ul class="notes">
-          {notes.map((n) => (
-            <li style={`--nx:${n.x}%; --ny:${n.y}%`}>{n.text}</li>
-          ))}
-        </ul>
+    </div>
+    <div class="hero__window">
+      <div class="ly-piece ui ui-panel hw">
+        <div class="hw__bar">
+          <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="hw__crumb">TypeFaze <i>/</i> <b>runs in your browser</b></span>
+        </div>
+        <div class="hw__body"><TypeFazeDiagram /></div>
       </div>
-      <div class="ring" aria-hidden="true"></div>
     </div>
-
-    <div class="hero-foot">
-      <p class="intro">
-        Most days I’m building something, breaking it, and figuring out why. 
-        Open to new work, new people and new problems. A few things I’ve made are below.
-      </p>
-    </div>
-  </div>
+  </div></div>
 </section>
 
 <style>
-  .hero { padding-block: 0 clamp(3rem, 8vw, 6rem); }
-
-  .stage {
-    --x: 70%; --y: 40%; --r: clamp(90px, 13vw, 190px);
-    position: relative;
-    display: grid;
-    margin-inline: calc(var(--gutter) * -1);
-    touch-action: pan-y;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='4' fill='%23ece6da'/%3E%3C/svg%3E") 6 6, auto;
-    overflow: hidden;
+  /* the frame's lit ground: the page's bronze rising from the foot, flat colour only */
+  .hero__window {
+    --ground-bg: radial-gradient(120% 90% at 50% 125%, color-mix(in oklab, var(--accent) 38%, var(--p-bg)) 0, var(--p-bg) 62%);
   }
-  .layer { grid-area: 1 / 1; padding: clamp(3rem, 9vw, 8rem) var(--gutter); }
-
-  .statement {
-    margin: 0;
-    font-size: var(--step-hero);
-    font-weight: 700;
-    font-variation-settings: 'opsz' 96, 'wdth' 86;
-    line-height: 0.94;
-    letter-spacing: -0.035em;
-    text-wrap: initial;
+  .hero__c :global(.hero__lead) { color: color-mix(in oklab, var(--p-ink) 86%, var(--p-bg)); }
+  @media (max-width: 639px) { .hero__c :global(.pill) { width: 100%; justify-content: center; } }
+  .hw {
+    overflow: hidden; background: var(--p-surface);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--p-ink) 14%, transparent), 0 30px 70px -30px rgb(0 0 0 / .8);
   }
-  .statement span { display: block; width: fit-content; }
-  .statement span:last-child {
-    color: var(--muted);
-    font-size: 0.4em; line-height: 1.08; letter-spacing: -0.02em;
-    font-variation-settings: 'opsz' 72, 'wdth' 90;
-    margin-top: 0.3em;
+  .hw__bar {
+    display: flex; align-items: center; gap: 14px; height: 44px; padding: 0 14px;
+    border-bottom: 1px solid color-mix(in oklab, var(--p-ink) 12%, transparent);
+    font-size: 13px; line-height: 16px; color: var(--p-muted);
   }
-
-  /* Underneath: blueprint paper, outlined letterforms, engineering notes. */
-  .under {
-    position: relative;
-    background-color: var(--print-deep);
-    background-image:
-      linear-gradient(rgba(122, 174, 255, 0.16) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(122, 174, 255, 0.16) 1px, transparent 1px),
-      linear-gradient(rgba(122, 174, 255, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(122, 174, 255, 0.07) 1px, transparent 1px);
-    background-size: 96px 96px, 96px 96px, 16px 16px, 16px 16px;
-    clip-path: circle(var(--r) at var(--x) var(--y));
-    pointer-events: none;
-  }
-  .under .statement span { color: transparent; -webkit-text-stroke: 1px var(--print); }
-  .under .statement span:last-child { -webkit-text-stroke-color: rgba(122, 174, 255, 0.6); }
-
-  .notes { list-style: none; position: absolute; inset: 0; }
-  .notes li {
-    position: absolute; left: clamp(0px, var(--nx), calc(100% - 15rem)); top: var(--ny);
-    font-size: var(--step--1); line-height: 1.2; color: var(--print);
-    white-space: nowrap;
-    padding-left: 1.1rem;
-  }
-  .notes li::before {
-    content: ''; position: absolute; left: 0.15rem; top: 0.42em; width: 0.4rem; height: 0.4rem;
-    border-radius: 50%; background: var(--print);
-  }
-
-  .ring {
-    position: absolute; left: 0; top: 0; pointer-events: none;
-    width: calc(var(--r) * 2); height: calc(var(--r) * 2);
-    border: 1px solid var(--print); border-radius: 50%;
-    translate: calc(var(--px, 0px) - var(--r)) calc(var(--py, 0px) - var(--r));
-    opacity: 0;
-  }
-  .stage.is-ready .ring { opacity: 1; }
-
-  .hero-foot {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
-    display: grid; gap: 1rem 3rem; grid-template-columns: minmax(0, 1fr);
-  }
-  @media (min-width: 52rem) {
-    .hero-foot { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
-  }
-  .intro { font-size: var(--step-1); line-height: 1.4; max-width: 34rem; font-variation-settings: 'opsz' 30; }
-  .hint { color: var(--muted); font-size: var(--step--1); }
-  @media (hover: none) { .hint { display: none; } }
-
-  @media (max-width: 40rem) {
-    .notes li { font-size: 0.75rem; }
-    .notes li:not(:nth-child(1)):not(:nth-child(5)) { display: none; }
-    .statement { font-variation-settings: 'opsz' 96, 'wdth' 78; font-size: 19vw; }
-  }
+  .hw .ui-dots { display: inline-flex; gap: 6px; }
+  .hw .ui-dots i { width: 10px; height: 10px; border-radius: 50%; background: color-mix(in oklab, var(--p-ink) 22%, transparent); }
+  .hw__crumb i { font-style: normal; }
+  .hw__crumb b { font-weight: 500; color: var(--p-ink); }
+  .hw__body { height: 232px; padding: var(--s-3) var(--s-4); }
+  .hw__body :global(.dg) { height: 100%; }
+  @media (max-width: 639px) { .hw__body { height: 180px; padding: var(--s-2); } }
 </style>
-
-<script>
-  const stage = document.querySelector<HTMLElement>('[data-lens]');
-  if (stage) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, sweeping = !reduce;
-
-    const heading = stage.querySelector<HTMLElement>('.surface .statement span')!;
-    // Rest the lens over the end of the name.
-    const rest = () => {
-      const r = stage.getBoundingClientRect();
-      const h = heading.getBoundingClientRect();
-      return { x: h.left - r.left + h.width * 0.72, y: h.top - r.top + h.height * 0.55 };
-    };
-
-    const apply = (x: number, y: number) => {
-      stage.style.setProperty('--x', `${x}px`);
-      stage.style.setProperty('--y', `${y}px`);
-      stage.style.setProperty('--px', `${x}px`);
-      stage.style.setProperty('--py', `${y}px`);
-    };
-
-    const tick = () => {
-      cx += (tx - cx) * 0.16;
-      cy += (ty - cy) * 0.16;
-      apply(cx, cy);
-      raf = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3 ? requestAnimationFrame(tick) : 0;
-    };
-    const follow = (x: number, y: number, instant = false) => {
-      tx = x; ty = y;
-      if (instant || reduce) { cx = x; cy = y; apply(x, y); return; }
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-
-    // One orchestrated moment: on load the lens sweeps across the headline, then parks.
-    const start = rest();
-    const r0 = stage.getBoundingClientRect();
-    if (sweeping) {
-      const from = { x: r0.width * 0.05, y: r0.height * 0.3 };
-      const t0 = performance.now();
-      const dur = 1700;
-      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
-      const sweep = (now: number) => {
-        if (!sweeping) return;
-        const t = Math.min(1, (now - t0) / dur);
-        const e = ease(t);
-        cx = tx = from.x + (start.x - from.x) * e;
-        cy = ty = from.y + (start.y - from.y) * e + Math.sin(e * Math.PI) * r0.height * 0.25;
-        apply(cx, cy);
-        if (t < 1) requestAnimationFrame(sweep); else sweeping = false;
-      };
-      requestAnimationFrame(sweep);
-    } else {
-      follow(start.x, start.y, true);
-    }
-    stage.classList.add('is-ready');
-
-    const local = (e: PointerEvent) => {
-      const r = stage.getBoundingClientRect();
-      return { x: e.clientX - r.left, y: e.clientY - r.top };
-    };
-    stage.addEventListener('pointermove', (e) => { sweeping = false; const p = local(e); follow(p.x, p.y); });
-    stage.addEventListener('pointerdown', (e) => { sweeping = false; const p = local(e); follow(p.x, p.y); });
-    stage.addEventListener('pointerleave', (e) => {
-      if (e.pointerType !== 'mouse') return;
-      const p = rest(); follow(p.x, p.y);
-    });
-    window.addEventListener('resize', () => { const p = rest(); follow(p.x, p.y, true); });
-  }
-</script>

@@ -1,0 +1,51 @@
+---
+import { process } from '../data/home';
+import { url } from '../data/site';
+---
+<div class="grid proc">
+  <ol class="span-7 steps">
+    {process.map((p) => (
+      <li>
+        <p class="t-card">{p.step}</p>
+        <p>{p.body}</p>
+      </li>
+    ))}
+  </ol>
+  <div class="span-5 start-8">
+    <div class="panel stages">
+      <ol class="stage-list">
+        {process.map((p, i) => (
+          <li class="stage-row">
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="name">{p.step}</span>
+            <span class="tools">
+              {p.icons.map((ic) => (
+                <span class="ic-tile"><img class="ic ic-32" src={url(`assets/icons/${ic.id}.svg`)} alt={ic.alt} width="32" height="32" loading="lazy" /></span>
+              ))}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</div>
+
+<style>
+  .proc { align-items: start; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--s-6); }
+  .steps p + p { margin-top: var(--s-2); }
+  /* The project's stages as a small mock: number, step, the tools used at that stage. Still, no motion. */
+  .stages { --p-h: 420px; display: grid; align-content: center; --ground-bg: var(--p-surface); --ground-surface: var(--p-surface); --ground-accent: var(--p-surface); border-radius: var(--r-lg); box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--p-ink) 10%, transparent); }
+  .stages::before, .stages::after { display: none; }
+  .stage-list { list-style: none; margin: 0; padding: var(--s-4) 0; display: grid; }
+  .stage-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: var(--s-4); min-height: 84px; padding-inline: var(--s-5); }
+  .stage-row + .stage-row { box-shadow: inset 0 1px 0 color-mix(in oklab, var(--p-ink) 10%, transparent); }
+  .num { font-family: var(--font-mono); font-size: 14px; color: color-mix(in oklab, var(--accent) 60%, var(--p-ink)); }
+  .name { font-weight: 500; }
+  .tools { display: inline-flex; gap: var(--s-2); }
+  @media (max-width: 639px) {
+    .steps { grid-template-columns: repeat(2, 1fr); column-gap: 12px; row-gap: var(--s-4); }
+    .stages { --p-h: 280px; }
+    .stage-row { min-height: 60px; }
+  }
+</style>

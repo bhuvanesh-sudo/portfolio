@@ -1,0 +1,26 @@
+---
+// Legal RAG as a diagram: a contract goes in, retrieval and reranking feed Llama 3.3-70B, and three of its
+// analysis modes come out. Every step is from the resume. Held still: a diagram below the hero does not
+// start on scroll; it plays while the pointer is on its card.
+const spec = {
+  layout: 'free',
+  pulse: 'none',
+  alt: 'Legal RAG: a contract PDF is chunked by clause, indexed and reranked, then Llama 3.3-70B gives cited answers, a risk scan and a version diff.',
+  nodes: [
+    { id: 'pdf', label: 'PDF', icon: 'pdf', at: [0.14, 0.5], atCompact: [0.14, 0.5] },
+    { id: 'llm', label: 'Llama 3.3', meta: 'reranked', icon: 'ui:brain', at: [0.47, 0.5], atCompact: [0.47, 0.5] },
+    { id: 'qa', label: 'Answers', icon: 'ui:message-square', at: [0.84, 0.2], atCompact: [0.84, 0.2] },
+    { id: 'risk', label: 'Risk scan', icon: 'ui:scan-text', at: [0.84, 0.5], atCompact: [0.84, 0.5] },
+    { id: 'diff', label: 'Diff', icon: 'ui:git-branch', at: [0.84, 0.8], atCompact: [0.84, 0.8] },
+  ],
+  edges: [
+    { from: 'pdf', to: 'llm' },
+    { from: 'llm', to: 'qa', curve: 'elbow' },
+    { from: 'llm', to: 'risk' },
+    { from: 'llm', to: 'diff', curve: 'elbow' },
+  ],
+};
+---
+<div class="dg" data-diagram data-dg-still>
+  <script type="application/json" set:html={JSON.stringify(spec)} />
+</div>

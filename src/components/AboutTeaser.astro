@@ -1,0 +1,21 @@
+---
+import { about } from '../data/home';
+import { site, url } from '../data/site';
+---
+<div class="grid about-grid">
+  <div class="span-7 about-copy">
+    <p class="t-lead">{about.body}</p>
+    <p class="btn-row">
+      <a class="btn btn--secondary" href={url('about')}>About me</a>
+      <a class="btn btn--secondary" href={url('writing')}>Read the writing</a>
+    </p>
+  </div>
+  <img class="about-photo span-5 start-8" src={url(site.photo)} alt="Portrait of Bhuvanesh" width="600" height="600" loading="lazy" />
+</div>
+
+<style>
+  .about-grid { align-items: start; }
+  .about-photo { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-lg); }
+  .about-copy { display: grid; gap: var(--s-5); }
+  @media (max-width: 639px) { .about-photo { aspect-ratio: 4 / 3; object-position: top; } }
+</style>

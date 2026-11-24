@@ -16,7 +16,7 @@ const actionFor = (p: Project) =>
     return (
       <li class="row">
         <div class="name">
-          <h3>{href ? <a href={href}>{p.name}</a> : p.name}</h3>
+          <p class="t-card title">{href ? <a href={href}>{p.name}</a> : p.name}</p>
           <p class="kind">{p.kind}{p.team && ', team project'}</p>
         </div>
         <p class="summary">{p.summary}</p>
@@ -39,15 +39,15 @@ const actionFor = (p: Project) =>
     border-bottom: 1px solid var(--rule);
   }
   @media (min-width: 52rem) {
-    .row { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 2fr); align-items: baseline; }
-    .side { flex-direction: column; align-items: flex-end; }
+    .row { grid-template-columns: minmax(0, 4fr) minmax(0, 6fr); align-items: baseline; }
+    .name { grid-row: 1 / span 2; }
+    .summary, .side { grid-column: 2; }
   }
-  h3 { font-size: var(--step-1); font-variation-settings: 'opsz' 40, 'wdth' 90; letter-spacing: -0.01em; }
-  h3 a { text-decoration: none; }
+  .title a { text-decoration: none; }
   /* Whole row is clickable via the title link. */
-  h3 a::after { content: ''; position: absolute; inset: 0; }
-  .row:has(a):hover { background: linear-gradient(90deg, rgba(122, 174, 255, 0.06), transparent 70%); }
-  .row:has(a):hover h3 a { color: var(--print); }
+  .title a::after { content: ''; position: absolute; inset: 0; }
+  .row:has(a):hover { background: linear-gradient(90deg, color-mix(in oklab, var(--print) 10%, transparent), transparent 70%); }
+  .row:has(a):hover .title a { color: var(--print); }
   .kind { color: var(--muted); font-size: var(--step--1); margin-top: 0.3rem; }
   .summary { color: var(--paper); max-width: 36rem; }
   .side { display: flex; gap: 0.35rem 1.25rem; flex-wrap: wrap; font-size: var(--step--1); color: var(--muted); }
