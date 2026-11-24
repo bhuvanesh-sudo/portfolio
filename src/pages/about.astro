@@ -10,7 +10,6 @@ const tools = [
   { group: 'Front end', items: ['React', 'Next.js', 'Tailwind CSS', 'shadcn/ui', 'Framer Motion'] },
   { group: 'Back end', items: ['FastAPI', 'Django', 'Node.js', 'Express', 'REST APIs', 'JWT auth'] },
   { group: 'Data and AI', items: ['PostgreSQL', 'Supabase', 'MongoDB', 'Neo4j', 'LangChain', 'FAISS', 'spaCy'] },
-  { group: 'Web3', items: ['Solidity', 'Hardhat', 'Ethers.js', 'Web3.js'] },
   { group: 'Shipping', items: ['Git', 'Docker', 'GitHub Actions', 'Vercel', 'pytest'] },
 ];
 
@@ -28,7 +27,7 @@ const photos = Object.entries(files)
     return { src: mod.default, alt: words ? words[0].toUpperCase() + words.slice(1) : 'Photograph' };
   });
 ---
-<Base title="About" description="About Bhuvanesh S, a developer in Chennai who builds web apps, AI tools and smart contracts.">
+<Base title="About" description="About Bhuvanesh, a developer in Chennai who builds generative AI tools and full-stack web apps.">
   <section class="page-head">
     <div class="wrap">
       <h1>About</h1>
@@ -37,7 +36,7 @@ const photos = Object.entries(files)
 
   <section class="section intro-sec">
     <div class="wrap intro">
-      <img src={url(site.photo)} alt="Portrait of Bhuvanesh S" width="900" height="900" loading="eager" />
+      <img src={url(site.photo)} alt="Portrait of Bhuvanesh" width="900" height="900" loading="eager" />
       <div class="bio">
         <p class="big">I make software. Usually the useful kind.</p>
         <p>
@@ -94,7 +93,8 @@ const photos = Object.entries(files)
 
 <style>
   .intro-sec { padding-top: clamp(2rem, 5vw, 3.5rem); }
-  .intro { display: grid; gap: 2.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
+  /* the kit makes a section's .wrap a flex column; the page's own grid wins here */
+  :global(main.inner) .intro { display: grid; gap: 2.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
   @media (min-width: 52rem) { .intro { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); align-items: start; } }
   .intro img { width: 100%; height: auto; max-width: 24rem; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 6px; }
   .bio { display: grid; gap: 1.25rem; max-width: var(--measure); }

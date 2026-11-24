@@ -1,103 +1,63 @@
-@import '@fontsource-variable/bricolage-grotesque/standard.css';
+/* The page system (grid, type, nav, buttons, footer, tokens) is the taste kit in public/assets/system.css,
+   loaded by Base.astro with the dealt :root palette. This file only keeps what the inner pages
+   (About, Work, Writing, 404) and the older components still use, mapped onto the kit's tokens. */
 
-/* ── Tokens ─────────────────────────────────────────────── */
+/* Dark page: native scrollbars and form controls follow it. Taps respond at once, with no highlight flash. */
+html { color-scheme: dark; -webkit-tap-highlight-color: transparent; }
+a, button { touch-action: manipulation; }
+
 :root {
-  /* Surface: deep ink. Underneath: blueprint. */
-  --ink: #10162e;
-  --ink-raised: #172043;
-  --rule: #2a3563;
-  --paper: #ece6da;
-  --muted: #9aa1bd;
-  --print: #7aaeff;       /* blueprint blue: the "underneath" layer, links, focus */
-  --print-deep: #0b1a3d;  /* blueprint paper */
-  --flag: #ffb547;        /* reserved for "in progress" */
+  /* Aliases for the inner pages. Names the kit already defines (--ink, --muted, --gutter) are not redefined here. */
+  --paper: var(--ink);
+  --print: var(--accent);
+  --print-deep: color-mix(in oklab, var(--p-bg) 82%, black);
+  --ink-raised: var(--p-surface);
+  --rule: color-mix(in oklab, var(--ink) 14%, transparent);
+  --flag: #ffb547;      /* reserved for "in progress" */
+  --measure: 38rem;
 
-  --font: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
-
-  /* Type scale, ratio 1.333 from 18px body */
   --step--1: 0.875rem;
   --step-0: 1.125rem;
   --step-1: 1.5rem;
   --step-2: 2rem;
   --step-3: clamp(2.25rem, 4.5vw, 2.67rem);
   --step-4: clamp(2.6rem, 6vw, 3.55rem);
-  --step-hero: clamp(3rem, 8.6vw + 1rem, 9.75rem);
-
-  --gutter: clamp(1rem, 4vw, 3rem);
-  --max: 82rem;
-  --measure: 38rem;
-
-  color-scheme: dark;
 }
 
-/* ── Base ───────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font);
-  font-size: var(--step-0);
-  font-variation-settings: 'opsz' 14;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-img { max-width: 100%; display: block; }
-h1, h2, h3 { margin: 0; font-weight: 600; line-height: 1.05; text-wrap: balance; }
-p { margin: 0; text-wrap: pretty; }
-ul, ol { margin: 0; padding: 0; }
+.footer__col a { overflow-wrap: anywhere; }
 
-a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
-a:hover { color: var(--print); }
-:focus-visible { outline: 2px solid var(--print); outline-offset: 3px; border-radius: 2px; }
-
-::selection { background: var(--print); color: var(--ink); }
-
-.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.skip {
-  position: absolute; left: var(--gutter); top: -4rem; z-index: 50;
-  background: var(--paper); color: var(--ink); padding: 0.5rem 0.9rem; border-radius: 4px;
-}
-.skip:focus { top: 1rem; }
 
-/* ── Header ─────────────────────────────────────────────── */
-.site-header { padding-block: 1.5rem; }
-.site-header .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
-.wordmark {
-  font-weight: 650; font-size: var(--step-0); text-decoration: none; letter-spacing: -0.01em;
-}
-.site-nav ul { list-style: none; display: flex; gap: clamp(1rem, 3vw, 2rem); }
-.site-nav a { text-decoration: none; color: var(--muted); }
-.site-nav a:hover, .site-nav a[aria-current='page'] { color: var(--paper); }
-.site-nav a[aria-current='page'] { text-decoration: underline; text-decoration-color: var(--print); text-underline-offset: 0.35em; }
+/* ── Inner pages ────────────────────────────────────────────
+   The kit gives every top-level section a fixed height of whole screens (one section per screen).
+   Inner pages hold prose of any length, so inside main.inner sections size to their content. */
+main.inner { padding-top: var(--nav); }
+main.inner > :is(section, .section) { height: auto; min-height: 0; padding-block: clamp(4rem, 10vw, 8rem); }
+main.inner > :is(section, .section) > :is(.wrap, .container) { height: auto; }
+main.inner > .page-head { padding-block: clamp(2.5rem, 7vw, 5rem) 0; }
+main.inner > .tight { padding-top: 0; }
 
-/* ── Section scaffolding ────────────────────────────────── */
-.section { padding-block: clamp(4rem, 10vw, 8rem); }
-.section-head {
+.inner .section-head {
   display: grid; gap: 0.75rem 3rem;
   grid-template-columns: minmax(0, 1fr);
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
 }
 @media (min-width: 52rem) {
-  .section-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
+  .inner .section-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; }
 }
-.section-head h2 { font-size: var(--step-4); font-variation-settings: 'opsz' 96, 'wdth' 85; letter-spacing: -0.02em; }
-.section-head p { color: var(--muted); max-width: 30rem; }
+.inner .section-head h2 { font-size: var(--step-4); letter-spacing: -0.02em; }
+.inner .section-head p { color: var(--muted); max-width: 30rem; }
 
-.page-head { padding-block: clamp(2.5rem, 7vw, 5rem) 0; }
 .page-head h1 {
-  font-size: clamp(3.25rem, 12vw, 10rem); font-weight: 700;
-  font-variation-settings: 'opsz' 96, 'wdth' 76; letter-spacing: -0.045em; line-height: 0.88;
+  font-size: clamp(3.25rem, 12vw, 10rem); font-weight: 600;
+  letter-spacing: -0.045em; line-height: 0.9;
 }
 .page-head p { margin-top: 1.5rem; font-size: var(--step-1); line-height: 1.4; color: var(--muted); max-width: 36rem; }
 
-.text-link { color: var(--print); text-decoration: underline; }
+.text-link { color: var(--print); text-decoration: underline; text-underline-offset: 0.2em; }
 .text-link:hover { color: var(--paper); }
 
 /* ── Placeholder frames (swap for real screenshots later) ─ */
@@ -106,53 +66,26 @@ a:hover { color: var(--print); }
   aspect-ratio: 16 / 10;
   border: 1px dashed var(--rule);
   border-radius: 6px;
-  background:
-    repeating-linear-gradient(135deg, transparent 0 14px, rgba(122, 174, 255, 0.06) 14px 15px),
-    var(--ink-raised);
+  background: var(--ink-raised);
   display: grid; place-items: center;
 }
 .placeholder::after {
   content: attr(data-label);
   color: var(--muted); font-size: var(--step--1);
-  padding: 0.35rem 0.7rem; background: var(--ink); border-radius: 4px;
+  padding: 0.35rem 0.7rem; background: var(--p-bg); border-radius: 4px;
   max-width: 80%; text-align: center;
 }
 
 /* ── Status tag ─────────────────────────────────────────── */
 .status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
 .status::before { content: ''; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--muted); }
-.status[data-status='Live']::before { background: var(--print); box-shadow: 0 0 0 3px rgba(122, 174, 255, 0.2); }
+.status[data-status='Live']::before { background: var(--print); box-shadow: 0 0 0 3px color-mix(in oklab, var(--print) 25%, transparent); }
 .status[data-status='In progress']::before { background: var(--flag); }
-
-/* ── Footer ─────────────────────────────────────────────── */
-.site-footer { border-top: 1px solid var(--rule); padding-block: clamp(4rem, 9vw, 7rem) 2rem; }
-.site-footer .invite { color: var(--muted); font-size: var(--step-1); max-width: 34rem; }
-.site-footer .mail {
-  display: inline-block; margin-top: 1rem;
-  font-size: clamp(1.6rem, 6.4vw, 5.5rem);
-  font-variation-settings: 'opsz' 96, 'wdth' 80; font-weight: 600; letter-spacing: -0.02em;
-  text-decoration: none; overflow-wrap: anywhere; line-height: 1.05;
-  background-image: linear-gradient(var(--print), var(--print));
-  background-size: 0% 2px; background-position: 0 100%; background-repeat: no-repeat;
-  transition: background-size 0.35s ease;
-}
-.site-footer .mail:hover, .site-footer .mail:focus-visible { background-size: 100% 2px; color: var(--paper); }
-.footer-meta {
-  margin-top: clamp(3rem, 7vw, 5rem);
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem;
-  color: var(--muted); font-size: var(--step--1);
-}
-.footer-meta ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
-.footer-meta a { text-decoration: none; }
-.footer-meta a:hover { text-decoration: underline; }
 
 /* ── Prose (case studies, writing) ──────────────────────── */
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-top: 1.1em; }
-.prose h2 {
-  font-size: var(--step-2); font-variation-settings: 'opsz' 60; letter-spacing: -0.01em;
-  margin-top: 2.6em;
-}
+.prose h2 { font-size: var(--step-2); letter-spacing: -0.01em; margin-top: 2.6em; }
 .prose h3 { font-size: var(--step-1); margin-top: 2em; }
 .prose ul { padding-left: 1.1em; }
 .prose li + li { margin-top: 0.5em; }
@@ -169,6 +102,5 @@ a:hover { color: var(--print); }
 .prose pre { background: var(--print-deep); padding: 1rem 1.2rem; border-radius: 6px; overflow-x: auto; font-size: var(--step--1); }
 .prose pre code { background: none; padding: 0; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-}
+/* phone: keep the closing footer inside one screen */
+@media (max-width: 639px) { footer.closing > .wrap { row-gap: var(--s-5); } .closing__links .footer__lede { display: none; } .closing__links { gap: var(--s-4); } }

@@ -5,64 +5,159 @@ import { site, url } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
+  /** The home page lays itself out in screens; inner pages sit in the compatibility wrapper (global.css .inner). */
+  home?: boolean;
 }
-const { title, description = site.description } = Astro.props;
-const fullTitle = title ? `${title} | ${site.name}` : site.name;
+const { title, description = site.description, home = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name}: generative AI tools and full-stack web apps`;
 const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
 
 const nav = [
   { href: 'work', label: 'Work' },
+  { href: '', hash: '#services', label: 'Services' },
   { href: 'writing', label: 'Writing' },
   { href: 'about', label: 'About' },
 ];
-const isCurrent = (href: string) => path === `/${href}` || path.startsWith(`/${href}/`);
+const isCurrent = (href: string) => href !== '' && (path === `/${href}` || path.startsWith(`/${href}/`));
+const mail = `mailto:${site.email}`;
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  description: site.description,
+  url: new URL(url(), Astro.site).href,
+  image: new URL(url(site.photo), Astro.site).href,
+  sameAs: [site.github, site.linkedin],
+  address: { '@type': 'PostalAddress', addressLocality: 'Chennai', addressCountry: 'IN' },
+};
+const a = (p: string) => url(`assets/${p}`);
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-type="software" data-radius="soft" data-buttons="solid" data-motion>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#10162e" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL(url('share.jpg'), Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <meta name="theme-color" content="#111111" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="site-kind" content="software" />
+    <meta name="page-type" content="software" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href={a('system.css')} />
+    <link rel="stylesheet" href={a('ui/cards.css')} />
+    <link rel="stylesheet" href={a('motion/motion.css')} />
+    <link rel="stylesheet" href={a('backgrounds/backgrounds.css')} />
+    <link rel="stylesheet" href={a('layout/layout.css')} />
+    <link rel="stylesheet" href={a('icons/icon.css')} />
+    <link rel="stylesheet" href={a('ui/base.css')} />
+    <link rel="stylesheet" href={a('diagrams/diagram.css')} />
+    <style is:global>
+      :root {
+        --p-bg: #111111; --p-surface: #1c1c1c; --p-ink: #f2f2f2; --p-muted: #8f8f8f;
+        --p-accent: #a08672; --p-accent-ink: #111111; --p-action: #a08672; --p-action-ink: #111111;
+        --p-inv-bg: #f2f2f2; --p-inv-surface: #e0e0e0; --p-inv-ink: #111111; --p-inv-muted: #5c5c5c;
+        --p-inv-accent: #a08672; --p-inv-accent-ink: #111111; --p-inv-action: #a08672; --p-inv-action-ink: #111111;
+        --font-display: "Manrope", system-ui, sans-serif;
+        --font-text: "Manrope", system-ui, sans-serif;
+        --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        --display-weight: 500;
+        --display-tracking: -0.035em;
+        --display-tracking-xl: -0.045em;
+        --ly-scale: 0.97;
+      }
+    </style>
+    <script is:inline>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+    <script is:inline src={a('backgrounds/backgrounds.js')}></script>
+    {home && <script type="application/ld+json" set:html={JSON.stringify(person)} />}
+    <slot name="head" />
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="site-header">
-      <div class="wrap">
-        <a class="wordmark" href={url()}>{site.name}</a>
-        <nav class="site-nav" aria-label="Main">
-          <ul>
-            {nav.map((item) => (
-              <li><a href={url(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
-            ))}
-          </ul>
+    <!--
+      type: software
+      deal: hero centred, nav nav-centre, close close-type, footer footer-dark, rhythm dark-band, buttons solid, mark dots, grounds none
+      moments: word-highlight (home, its own section)
+    -->
+    <header class="nav nav--centre">
+      <div class="wrap nav__bar">
+        <a class="skip-link" href="#top">Skip to content</a>
+        <a class="nav__logo" href={url()} translate="no"><span class="mark" data-mark="dots" aria-hidden="true"></span>{site.name}</a>
+        <nav class="nav__links" aria-label="Main">
+          {nav.map((item) => (
+            <div class="nav__item">
+              <a class="nav__link" href={url(item.href) + (item.hash ?? '')} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+            </div>
+          ))}
         </nav>
+        <div class="nav__actions">
+          <a class="btn btn--primary" href={mail}>Email me</a>
+        </div>
+        <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </button>
       </div>
     </header>
 
-    <main id="main">
+    <main id="top" class={home ? undefined : 'inner'}>
       <slot />
     </main>
 
-    <footer class="site-footer">
+    <footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
       <div class="wrap">
-        <p class="invite">Building something, or want a second pair of hands on one? I’m open to freelance work and collaborations.</p>
-        <a class="mail" href={`mailto:${site.email}`}>{site.email}</a>
-        <div class="footer-meta">
-          <ul>
-            <li><a href={site.github} rel="me">GitHub</a></li>
-            <li><a href={site.linkedin} rel="me">LinkedIn</a></li>
-            <li><a href={url(site.resume)}>Résumé (PDF)</a></li>
-          </ul>
-          <p>{site.location}</p>
+        <div class="closing__cta close--type">
+          <div class="section-head">
+            <h2 id="close-h">Have something to build? Email me.</h2>
+            <p class="t-small muted">Tell me what you are building and where it is stuck.</p>
+          </div>
+          <a class="btn btn--primary btn--xl btn--wide" href={mail}>Email me<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+        </div>
+        <div class="closing__links">
+          <div class="grid">
+            <div class="span-4 stack-4">
+              <a class="nav__logo" href={url()} translate="no"><span class="mark" data-mark="dots" aria-hidden="true"></span>{site.name}</a>
+              <p class="footer__lede">Generative AI tools and full-stack web apps, from first prototype to a polished product.</p>
+            </div>
+            <div class="span-2 footer__col"><h3>Work</h3><ul>
+              <li><a href={url('work/growingplate')}>GrowingPlate</a></li>
+              <li><a href={url('work/typefaze')}>TypeFaze</a></li>
+              <li><a href={url('work')}>All projects</a></li>
+            </ul></div>
+            <div class="span-2 footer__col"><h3>Site</h3><ul>
+              <li><a href={url('') + '#services'}>Services</a></li>
+              <li><a href={url('writing')}>Writing</a></li>
+              <li><a href={url('about')}>About</a></li>
+            </ul></div>
+            <div class="span-2 footer__col"><h3>Elsewhere</h3><ul>
+              <li><a href={site.github} rel="me">GitHub</a></li>
+              <li><a href={site.linkedin} rel="me">LinkedIn</a></li>
+              <li><a href={url(site.resume)}>Résumé (PDF)</a></li>
+            </ul></div>
+            <div class="span-2 footer__col"><h3>Contact</h3><ul>
+              <li><a href={mail}>{site.email}</a></li>
+              <li>{site.location}</li>
+            </ul></div>
+          </div>
+          <div class="footer__legal">
+            <span>&copy; {new Date().getFullYear()} <span translate="no">{site.name}</span></span>
+          </div>
         </div>
       </div>
     </footer>
+
+    <script type="module" is:inline src={a('system.js')}></script>
+    <script type="module" is:inline src={a('motion/motion.js')}></script>
+    <script type="module" is:inline src={a('layout/layout.js')}></script>
+    <script type="module" is:inline src={a('diagrams/mount.js')}></script>
   </body>
 </html>
