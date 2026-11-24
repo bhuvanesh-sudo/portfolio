@@ -9,7 +9,7 @@ interface Props {
   home?: boolean;
 }
 const { title, description = site.description, home = false } = Astro.props;
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name}: generative AI tools and full-stack web apps`;
+const fullTitle = title ? `${title} | ${site.name}` : site.name;
 const path = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
 
 const nav = [
