@@ -16,7 +16,7 @@ export interface Project {
   team?: boolean;
 }
 
-export const projects: Project[] = [
+const demoProjects: Project[] = [
   {
     slug: 'growingplate',
     name: 'GrowingPlate',
@@ -35,7 +35,7 @@ export const projects: Project[] = [
       'Draw five letters, get a whole font. A small model trained from scratch fills in the rest of the alphabet in your style, right in the browser.',
     kind: 'AI tool',
     stack: ['PyTorch', 'ONNX Runtime Web', 'React', 'TypeScript', 'opentype.js'],
-    status: 'In progress',
+    status: 'Shipped',
     repo: 'https://github.com/bhuvanesh-sudo/typefaze',
     featured: true,
   },
@@ -72,16 +72,6 @@ export const projects: Project[] = [
     team: true,
   },
   {
-    slug: 'keepalive',
-    name: 'KeepAlive',
-    summary:
-      'A dead man’s switch on Ethereum. Check in to keep your funds locked; miss the deadline and your beneficiary can claim them.',
-    kind: 'Smart contract',
-    stack: ['Solidity', 'Hardhat', 'TypeScript', 'Ethers.js'],
-    status: 'Shipped',
-    repo: 'https://github.com/bhuvanesh-sudo/deadman-switch',
-  },
-  {
     slug: 'smart-braking',
     name: 'Smart Braking System',
     summary:
@@ -93,16 +83,6 @@ export const projects: Project[] = [
     team: true,
   },
   {
-    slug: 'harvest-hash',
-    name: 'Harvest Hash',
-    summary:
-      'A decentralised ledger for agricultural trades, so farmers and buyers share one tamper-proof record.',
-    kind: 'dApp',
-    stack: ['Solidity', 'Web3.js', 'React', 'Node.js'],
-    status: 'Shipped',
-    repo: 'https://github.com/bhuvanesh-sudo/harvest-hash',
-  },
-  {
     slug: 'ethical-rantbot',
     name: 'Ethical Rantbot',
     summary:
@@ -112,7 +92,33 @@ export const projects: Project[] = [
     status: 'Shipped',
     repo: 'https://github.com/bhuvanesh-sudo/ethical-rantbot',
   },
+  {
+    slug: 'keepalive',
+    name: 'KeepAlive',
+    summary:
+      'A dead man’s switch on Ethereum. Check in to keep your funds locked; miss the deadline and your beneficiary can claim them.',
+    kind: 'Smart contract',
+    stack: ['Solidity', 'Hardhat', 'TypeScript', 'Ethers.js'],
+    status: 'Shipped',
+    repo: 'https://github.com/bhuvanesh-sudo/deadman-switch',
+  },
+  {
+    slug: 'harvest-hash',
+    name: 'Harvest Hash',
+    summary:
+      'A decentralised ledger for agricultural trades, so farmers and buyers share one tamper-proof record.',
+    kind: 'dApp',
+    stack: ['Solidity', 'Web3.js', 'React', 'Node.js'],
+    status: 'Shipped',
+    repo: 'https://github.com/bhuvanesh-sudo/harvest-hash',
+  },
 ];
+
+import { mode, worstProjects, oneProject } from './fixtures';
+
+// Demo data by default; the dev server swaps in a fixture when PUBLIC_DATA is set (src/data/fixtures.ts).
+export const projects: Project[] =
+  mode === 'worst' ? worstProjects : mode === 'one' ? oneProject : mode === 'empty' ? [] : demoProjects;
 
 export const featured = projects.filter((p) => p.featured);
 export const others = projects.filter((p) => !p.featured);
